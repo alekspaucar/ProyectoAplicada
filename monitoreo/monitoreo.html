@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Monitoreo - Agricultura Inteligente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../monitoreo/monitoreo.css" />
+</head>
+
+<body>
+
+    <!-- Panel superior optimizado -->
+    <div class="panel-superior">
+        <h1>🌿 Monitoreo en Tiempo Real</h1>
+        <div class="contenedor-botones">
+            <button class="boton actualizar-btn" onclick="actualizarDatos()">
+                <span>🔄</span> Actualizar
+            </button>
+            <button class="boton volver-btn" onclick="window.location.href='../home/index.html'">
+                <span>🔙</span> Volver
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="contenedor-principal">
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Humedad</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <!--aqui dentro del tbody para los datos que deberia extraer de mysql-->
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../monitoreo/monitoreo.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,209 @@
+/* Reset y estilos base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; /* O 700 si quieres más grosor */
+    background-image: url('../imagenes/alek.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Panel superior - Versión mejorada */
+.panel-superior {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semitransparente */
+    color: white;
+    padding: 5px 30px;
+    /* Ajustado para mejor proporción */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    /* Efecto de vidrio esmerilado */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel-superior h1 {
+    margin: 0;
+    font-size: 32px;
+    /* Responsive */
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Contenedor de botones - Versión optimizada */
+.contenedor-botones {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Estilos de botones mejorados */
+.boton {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.actualizar-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.actualizar-btn:hover {
+    background-color: #3e8e41;
+    transform: translateY(-2px);
+}
+
+.volver-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.volver-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Contenido principal */
+.contenedor-principal {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: calc(70px + 2rem) 20px 40px;
+    width: 100%;
+}
+
+/* Tabla y contenedor */
+.tabla-contenedor {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 900px;
+    overflow-x: auto;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+}
+
+th,
+td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+}
+
+tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Media queries optimizadas */
+@media (max-width: 768px) {
+    .panel-superior {
+        padding: 40px 15px;
+        gap: 10px;
+    }
+
+    .panel-superior h1 {
+        max-width: 100%;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .contenedor-botones {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .boton {
+        padding: 7px 14px;
+        font-size: 0.85rem;
+    }
+
+    .contenedor-principal {
+        padding: calc(70px + 1.5rem) 15px 30px;
+    }
+
+    .tabla-contenedor {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .panel-superior {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .panel-superior h1 {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+    }
+
+    .contenedor-botones {
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    .boton {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        flex: 1;
+        max-width: 45%;
+    }
+
+    th,
+    td {
+        padding: 8px 5px;
+        font-size: 0.8rem;
+    }
+}

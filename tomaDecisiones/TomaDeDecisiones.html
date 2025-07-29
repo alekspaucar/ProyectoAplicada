@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard de Humedad</title>
+    <link rel="stylesheet" href="tomaDeDecisiones.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
+    
+</head>
+
+<body>
+    <!-- Panel superior fijo -->
+    <div class="panel-superior">
+        <h1>🌿 Toma de decisiones</h1>
+        <div class="botones-panel" style="flex-direction: row-reverse;">
+            <button class="boton volver-btn">🔙Volver</button>
+            <button class="boton actualizar-btn" id="btnActualizar">🔄Actualizar</button>
+            <button class="boton" id="toggle-calendar">🗓️Calendario</button>
+        </div>
+    </div>
+
+    <!-- Rango de fechas seleccionado y mensaje de error -->
+    <div class="rango-info">
+        <div id="selected-range"></div>
+        <div class="error" id="error-msg"></div>
+    </div>
+
+    <!-- Dashboard de gráficos -->
+    <div class="dashboard">
+        <!-- Velocímetro -->
+        <div class="chart-container velocimetro">
+            <h3>Velocímetro</h3>
+            <canvas id="velocimetroChart"></canvas>
+            <div id="mensajeHumedad">Cargando datos humedad...</div>
+        </div>
+
+        <!-- Barras de humedad -->
+        <div class="chart-container barras">
+            <h3>Rendimiento hídrico</h3>
+            <canvas id="barChart" width="400" height="300"></canvas>
+        </div>
+
+        <!-- Línea de humedad -->
+        <div class="chart-container linea">
+            <h3>Histórico de humedad</h3>
+            <canvas id="lineChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Calendario flotante -->
+    <div class="calendar-container" id="calendar" style="display: none;">
+        <div class="calendar-header">
+            <button id="prev">&#8592;</button>
+            <h2 id="month-year"></h2>
+            <button id="next">&#8594;</button>
+        </div>
+        <div class="calendar-days">
+            <div>Dom</div>
+            <div>Lun</div>
+            <div>Mar</div>
+            <div>Mié</div>
+            <div>Jue</div>
+            <div>Vie</div>
+            <div>Sáb</div>
+        </div>
+        <div class="calendar-dates" id="calendar-dates"></div>
+    </div>
+
+    <!-- Selector de hora -->
+    <div id="time-picker" class="time-picker-modal" style="display: none;">
+        <div class="tp-content">
+            <h3 id="tp-title">🕒 Ingresa hora</h3>
+            <input type="time" id="tp-input" step="60" />
+            <div class="tp-buttons">
+                <button id="tp-cancel" class="boton volver-btn">Cancelar</button>
+                <button id="tp-ok" class="boton actualizar-btn">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script principal -->
+    <script src="tomaDeDecisiones.js"></script>
+</body>
+
+</html>
