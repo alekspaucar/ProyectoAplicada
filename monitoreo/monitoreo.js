@@ -21,23 +21,30 @@ function actualizarDatos() {
 }
 
 //***************************************************************************************** */
-
+// ... dentro de tu función actualizarTabla(datos):
 function actualizarTabla(datos) {
     const tbody = document.querySelector("tbody");
     tbody.innerHTML = "";
 
-    datos.forEach(registro => {
+    const pad = n => String(n).padStart(2, '0');
+
+    datos.forEach(reg => {
+        // reg.fecha_hora viene "2025-07-29 08:02:13"
+        const d = new Date(reg.fecha_hora.replace(' ', 'T'));
+        const fecha = `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+        const hora = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+
         const fila = document.createElement("tr");
         fila.innerHTML = `
-        <td>${registro.fecha}</td>
-        <td>${registro.hora}</td>
-        <td>${registro.humedad}%</td>
-        <td>${formatearEstado(registro.estado_suelo)}</td>
+        <td>${reg.id || ''}</td>   <!-- ← Agrega el ID aquí -->
+        <td>${fecha}</td>
+        <td>${hora}</td>
+        <td>${reg.humedad}%</td>
+        <td>${formatearEstado(reg.estado_suelo)}</td>
     `;
         tbody.appendChild(fila);
     });
 }
-
 
 
 //***************************************************************************************** */

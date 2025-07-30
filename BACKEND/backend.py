@@ -19,7 +19,6 @@ DB_CONFIG = {
 BAUDRATE = 9600
 SERIAL_TIMEOUT = 1  # segundos
 
-
 def encontrar_puerto_arduino():
     puertos = serial.tools.list_ports.comports()
     for puerto in puertos:
@@ -27,7 +26,6 @@ def encontrar_puerto_arduino():
         if 'arduino' in desc or 'usb serial device' in desc:
             return puerto.device
     return None
-
 
 def conectar_base_datos():
     try:
@@ -38,7 +36,6 @@ def conectar_base_datos():
         print(f"❌ Error al conectar a la base de datos: {err}")
         return None
 
-
 def abrir_puerto_serial(puerto):
     try:
         ser = serial.Serial(puerto, BAUDRATE, timeout=SERIAL_TIMEOUT)
@@ -48,10 +45,8 @@ def abrir_puerto_serial(puerto):
         print(f"❌ No se pudo abrir puerto serial {puerto}: {e}")
         return None
 
-
 def formatear_estado(hum):
     return "Baja (LED rojo)" if hum < 30 else "Adecuada (LED verde)"
-
 
 def main():
     # 1) Encuentra Arduino
@@ -72,38 +67,38 @@ def main():
         return
     cursor = conexion.cursor()
 
+    intervalo = 2  # <<<<<<<< Cambia aquí la frecuencia en segundos (ej: 1, 2, 5, etc)
+    ultima_insercion = 0  # Timestamp de la última inserción
+
     print("🔄 Iniciando monitoreo de humedad...")
     try:
         while True:
             try:
                 linea = arduino.readline().decode('utf-8', errors='ignore').strip()
                 if not linea:
-                    # No hay dato, seguir leyendo
-                    time.sleep(1)
+                    time.sleep(0.1)
                     continue
 
-                # Intentar extraer solo el número (p. ej., "36.2" de "humedad: 36.2%")
                 texto = linea.lower().replace('%', '').replace('humedad del suelo:', '').strip()
                 humedad = float(texto)
 
-                ahora = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                estado = formatear_estado(humedad)
+                ahora = datetime.now()
+                ahora_ts = ahora.timestamp()  # Tiempo actual en segundos
 
-                cursor.execute(
-                    "INSERT INTO datos_parcela (fecha_hora, humedad, estado_suelo) "
-                    "VALUES (%s, %s, %s)",
-                    (ahora, humedad, estado)
-                )
-                conexion.commit()
-                print(f"✅ {ahora} – {humedad:.1f}% – {estado}")
+                if ahora_ts - ultima_insercion >= intervalo:
+                    estado = formatear_estado(humedad)
+                    cursor.execute(
+                        "INSERT INTO datos_parcela (fecha_hora, humedad, estado_suelo) VALUES (%s, %s, %s)",
+                        (ahora.strftime('%Y-%m-%d %H:%M:%S'), humedad, estado)
+                    )
+                    conexion.commit()
+                    ultima_insercion = ahora_ts
+                    print(f"✅ {ahora.strftime('%Y-%m-%d %H:%M:%S')} – {humedad:.1f}% – {estado}")
 
             except ValueError:
-                # Dato no numérico
                 print(f"❌ Dato inválido recibido: '{linea}'")
             except serial.SerialException as e:
-                # Problema de comunicación serial
                 print(f"⚠️ SerialException: {e}")
-                # Intentar reconexión del puerto
                 try:
                     if arduino.is_open:
                         arduino.close()
@@ -114,18 +109,16 @@ def main():
                     print(f"❌ No se pudo reabrir puerto: {reopen_err}")
                     time.sleep(5)
             except mysql.connector.Error as db_err:
-                # Problema con la BD
                 print(f"❌ Error en inserción a BD: {db_err}")
                 time.sleep(5)
 
-            # Breve pausa antes de la siguiente lectura
-            time.sleep(1)
+            # Bucle ágil, pero sin saturar CPU
+            time.sleep(0.1)
 
     except KeyboardInterrupt:
         print("\n🔴 Monitoreo detenido por usuario")
 
     finally:
-        # Cierre ordenado de recursos
         try:
             if arduino and arduino.is_open:
                 arduino.close()
@@ -137,7 +130,6 @@ def main():
         except Exception:
             pass
         print("🗑️ Recursos liberados")
-
 
 if __name__ == '__main__':
     main()

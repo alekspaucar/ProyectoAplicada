@@ -132,6 +132,7 @@ body {
     max-height: calc(100vh - 90px);
     overflow: auto;
 }
+
 .grafico-container {
     background: #2a2a2a;
     padding: 20px;
@@ -154,6 +155,7 @@ body {
     margin-top: 20px;
     text-align: center;
 }
+
 .chart-container {
     background-color: rgba(0, 0, 0, 0.4);
     padding: 20px;
@@ -167,13 +169,23 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.linea {
-    min-height: 40px;
+.chart-container.linea {
+    position: relative;
+    height: 300px;
+    max-height: 300px;
 }
+
+.chart-container.linea canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
 
 .chart-container canvas {
     max-width: 100% !important;
-    height: auto !important;
     margin: auto;
     display: block;
 }

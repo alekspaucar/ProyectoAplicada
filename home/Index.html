@@ -9,12 +9,35 @@
   <!-- Google Font: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
+<script>
+  function actualizarHumedad() {
+    fetch('http://localhost:5000/api/ultima-humedad')
+      .then(res => res.json())
+      .then(data => {
+        // Si el backend responde con { humedad: 35.0 }
+        if (data && typeof data.humedad !== "undefined") {
+          document.getElementById('humedadActual').textContent = "Humedad " + data.humedad.toFixed(1) + "%";
+        } else {
+          document.getElementById('humedadActual').textContent = "Humedad --%";
+        }
+      })
+      .catch(() => {
+        document.getElementById('humedadActual').textContent = "Humedad --%";
+      });
+  }
+
+  // Primera carga inmediata
+  actualizarHumedad();
+  // Luego cada 5 segundos
+  setInterval(actualizarHumedad, 5000);
+</script>
+
 <body>
 
   <!-- Panel superior con título y humedad -->
   <div class="panel-superior">
     <h1>🌿 Agricultura Inteligente</h1>
-    <div class="humedad">Humedad 35%</div>
+    <div class="humedad" id="humedadActual">Humedad --%</div>
   </div>
 
   <!-- Contenedor centrado de los botones -->
